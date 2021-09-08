@@ -7,6 +7,8 @@ provider:
   runtime: nodejs14.x
   stage: ${opt:stage, 'development'}
   region: ${env:SERVERLESS_REGION}
+  profile: ${env:SERVERLESS_PROFILE}
+  stackName: ${self:service}-${self:provider.stage}
   lambdaHashingVersion: 20201221
   apiName: ${self:service}-${self:provider.stage}
   apiGateway:
