@@ -4,7 +4,7 @@ import type {
   Handler,
 } from 'aws-lambda'
 import type { FromSchema } from 'json-schema-to-ts'
-import { isString } from 'lodash'
+import isString from 'lodash/isString'
 
 import { ErrorResponse, Headers, Body } from './types'
 
