@@ -15,8 +15,10 @@ export enum UserLoginType {
 export interface IUser extends Document {
   email: string
   name: string
-  phone: string
   type: UserType
+  login_type: UserLoginType
+  password?: string
+  phone?: string
 }
 
 const UserSchema: Schema = new Schema(
@@ -24,12 +26,16 @@ const UserSchema: Schema = new Schema(
     // Main fields
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
-    type: { type: Number, enum: Object.values(UserType), required: true },
+    type: {
+      type: Number,
+      enum: [UserType.Broker, UserType.Agent],
+      required: true,
+    },
 
     // Login fields
     login_type: {
       type: Number,
-      enum: Object.values(UserLoginType),
+      enum: [UserLoginType.email, UserLoginType.facebook, UserLoginType.google],
       required: true,
     },
     password: { type: String },
