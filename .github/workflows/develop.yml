@@ -43,3 +43,5 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SERVERLESS_REGION: ${{ secrets.AWS_REGION }}
+          MONGODB_URI: ${{ secrets.DEVELOP_MONGODB_URI }}
+          MONGODB_DB: ${{ secrets.DEVELOP_MONGODB_DB }}
