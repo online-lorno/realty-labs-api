@@ -5,7 +5,6 @@ const config: MongoDbConfigProps = {
   options: {
     dbName: process.env.MONGODB_DB || 'realty-labs-dev',
     useNewUrlParser: true,
-    useFindAndModify: false,
   },
 }
 
