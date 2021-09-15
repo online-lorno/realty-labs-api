@@ -24,7 +24,7 @@ export interface IUser extends Document {
 const UserSchema: Schema = new Schema(
   {
     // Main fields
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
     name: { type: String, required: true },
     type: {
       type: Number,
@@ -60,5 +60,6 @@ UserSchema.pre('save', function (next) {
 // Indexes
 UserSchema.index({ email: 1 })
 UserSchema.index({ email: 1, type: 1 })
+UserSchema.index({ email: 1, login_type: 1 }, { unique: true })
 
 export default model<IUser>('User', UserSchema)
