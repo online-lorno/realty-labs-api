@@ -1,16 +1,16 @@
 import { Schema, model, Document, Types } from 'mongoose'
 
-import User from '@models/User'
+import { IUser } from '@models/User'
 
 export interface IBroker extends Document {
-  user: Types.ObjectId
+  user: IUser['_id']
   name: string
   slug: string
 }
 
 const BrokerSchema = new Schema(
   {
-    user: { type: Types.ObjectId, ref: User, required: true },
+    user: { type: Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
   },

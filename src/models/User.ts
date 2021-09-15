@@ -1,7 +1,7 @@
 import { Schema, model, Document, Types } from 'mongoose'
 import md5 from 'md5'
 
-import Broker from '@models/Broker'
+import { IBroker } from '@models/Broker'
 
 export enum UserType {
   Broker = 0,
@@ -21,7 +21,7 @@ export interface IUser extends Document {
   login_type: UserLoginType
   password?: string
   phone?: string
-  broker?: Types.ObjectId
+  broker?: IBroker['_id']
 }
 
 const UserSchema: Schema = new Schema<IUser>(
@@ -49,7 +49,7 @@ const UserSchema: Schema = new Schema<IUser>(
 
     // Optional fields
     phone: { type: String },
-    broker: { type: Types.ObjectId, ref: Broker },
+    broker: { type: Types.ObjectId, ref: 'Broker' },
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
