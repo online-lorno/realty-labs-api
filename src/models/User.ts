@@ -1,5 +1,7 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model, Document, Types } from 'mongoose'
 import md5 from 'md5'
+
+import Broker from '@models/Broker'
 
 export enum UserType {
   Broker = 0,
@@ -19,29 +21,35 @@ export interface IUser extends Document {
   login_type: UserLoginType
   password?: string
   phone?: string
+  broker?: Types.ObjectId
 }
 
-const UserSchema: Schema = new Schema(
+const UserSchema: Schema = new Schema<IUser>(
   {
     // Main fields
     email: { type: String, required: true },
     name: { type: String, required: true },
     type: {
       type: Number,
-      enum: [UserType.Broker, UserType.Agent],
+      enum: Object.values(UserType).filter(
+        (value) => typeof value === 'number'
+      ),
       required: true,
     },
 
     // Login fields
     login_type: {
       type: Number,
-      enum: [UserLoginType.email, UserLoginType.facebook, UserLoginType.google],
+      enum: Object.values(UserLoginType).filter(
+        (value) => typeof value === 'number'
+      ),
       required: true,
     },
     password: { type: String },
 
     // Optional fields
     phone: { type: String },
+    broker: { type: Types.ObjectId, ref: Broker },
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
