@@ -19,6 +19,7 @@
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
     "ajv": "^8.6.3",
+    "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
     "mongoose": "^6.0.5",
     "nodemon": "^2.0.12",
