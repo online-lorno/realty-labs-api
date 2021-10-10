@@ -11,7 +11,7 @@
     "deploy:env": "sls deploy --stage $NODE_ENV --verbose",
     "deploy:development": "export NODE_ENV=development && npm run deploy:env",
     "deploy:production": "export NODE_ENV=production && npm run deploy:env",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests  --verbose"
   },
   "engines": {
     "node": ">=14.15.0"
