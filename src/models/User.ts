@@ -23,6 +23,7 @@ export interface IUser extends Document {
   phone?: string
   email_activated: boolean
   broker?: IBroker['_id']
+  validPassword: (password: string) => boolean
 }
 
 const UserSchema: Schema = new Schema<IUser>(
@@ -66,6 +67,11 @@ UserSchema.pre('save', function (next) {
   }
   next()
 })
+
+// Methods
+UserSchema.methods.validPassword = function (password) {
+  return this.password === md5(password)
+}
 
 // Indexes
 UserSchema.index({ email: 1 })
