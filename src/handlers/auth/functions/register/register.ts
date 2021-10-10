@@ -1,16 +1,14 @@
 import 'source-map-support/register'
-import Ajv, { JSONSchemaType } from 'ajv'
 import type { FromSchema } from 'json-schema-to-ts'
-import { pick } from 'ramda'
+import Ajv, { JSONSchemaType } from 'ajv'
 
 import { returnAjvError } from '@libs/ajv'
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway'
 import { success, error, errorResponse, StatusCode } from '@libs/apiGateway'
 import { middyfy } from '@libs/lambda'
-import { generateToken } from '@libs/jwt'
-import User from '@models/User'
+import User, { UserType, UserLoginType } from '@models/User'
 import mongoClient from '@services/mongo/client'
-import schema from '../schemas/login'
+import schema from '../../schemas/register'
 
 type Body = FromSchema<typeof schema>
 const bodySchema: JSONSchemaType<Body> = schema
@@ -18,7 +16,7 @@ const bodySchema: JSONSchemaType<Body> = schema
 const ajv = new Ajv()
 const validate = ajv.compile(bodySchema)
 
-const login: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
+const register: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   event
 ) => {
   try {
@@ -31,18 +29,28 @@ const login: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
     }
 
     // Expand passed data
-    const { email, password } = event.body
+    const { email, password, name, phone } = event.body
 
     // Check if user is existing
     const checkUser = await User.findOne({ email })
-    if (!checkUser || (checkUser && !checkUser.validPassword(password))) {
-      throw errorResponse('Invalid email or password', StatusCode.BAD_REQUEST)
+    if (checkUser) {
+      throw errorResponse('Email is already taken.', StatusCode.BAD_REQUEST)
     }
 
-    const token = generateToken(pick(['email', 'type'], checkUser))
+    // Create user
+    const user = await new User()
+    user.email = email
+    user.name = name
+    user.type = UserType.Broker
+    user.login_type = UserLoginType.email
+    user.password = password
+    user.phone = phone
+    await user.save()
+
+    // @TODO: Sent email to verify email address
+
     return success({
-      message: 'Successfully logged in',
-      token,
+      message: 'Successfully registered',
     })
   } catch (exception: any) {
     console.log(exception)
@@ -50,4 +58,4 @@ const login: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   }
 }
 
-export const handler = middyfy(login)
+export const handler = middyfy(register)

@@ -1,6 +1,6 @@
 # Login
 login:
-  handler: ${self:custom.root}/auth/functions/login.handler
+  handler: ${self:custom.root}/auth/functions/login/login.handler
   events:
     - http:
         path: ${self:custom.apiPrefix}/auth/login
@@ -9,7 +9,7 @@ login:
 
 # Register
 register:
-  handler: ${self:custom.root}/auth/functions/register.handler
+  handler: ${self:custom.root}/auth/functions/register/register.handler
   events:
     - http:
         path: ${self:custom.apiPrefix}/auth/register
@@ -18,7 +18,7 @@ register:
 
 # Verify token
 verify-token:
-  handler: ${self:custom.root}/auth/functions/verify-token.handler
+  handler: ${self:custom.root}/auth/functions/verify-token/verify-token.handler
   events:
     - http:
         path: ${self:custom.apiPrefix}/auth/verify-token

@@ -7,7 +7,7 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway'
 import { success, error, errorResponse, StatusCode } from '@libs/apiGateway'
 import { middyfy } from '@libs/lambda'
 import { isTokenVerified } from '@libs/jwt'
-import schema from '../schemas/verify-token'
+import schema from '../../schemas/verify-token'
 
 type Body = FromSchema<typeof schema>
 const bodySchema: JSONSchemaType<Body> = schema
