@@ -4,14 +4,14 @@ import md5 from 'md5'
 import { IBroker } from '@models/Broker'
 
 export enum UserType {
-  Broker = 0,
-  Agent = 1,
+  Broker = 1,
+  Agent = 2,
 }
 
 export enum UserLoginType {
-  email = 0,
-  facebook = 1,
-  google = 2,
+  email = 1,
+  facebook = 2,
+  google = 3,
 }
 
 export interface IUser extends Document {
@@ -21,6 +21,7 @@ export interface IUser extends Document {
   login_type: UserLoginType
   password?: string
   phone?: string
+  email_activated: boolean
   broker?: IBroker['_id']
 }
 
@@ -47,8 +48,9 @@ const UserSchema: Schema = new Schema<IUser>(
     },
     password: { type: String },
 
-    // Optional fields
+    // Other fields
     phone: { type: String },
+    email_activated: { type: Boolean, required: true, default: false },
     broker: { type: Types.ObjectId, ref: 'Broker' },
   },
   {
