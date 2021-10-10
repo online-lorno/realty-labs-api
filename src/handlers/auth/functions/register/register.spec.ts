@@ -8,19 +8,18 @@ import { register } from './register'
 
 const context = {} as Context
 const callback: Callback = (): void => {}
+const body = {
+  email: faker.internet.exampleEmail(),
+  password: faker.internet.password(),
+  name: faker.name.findName(),
+  phone: faker.phone.phoneNumber(),
+}
 
 afterAll(async () => {
   await mongoClient.disconnect()
 })
 
 describe('POST /auth/register', () => {
-  const body = {
-    email: faker.internet.exampleEmail(),
-    password: faker.internet.password(),
-    name: faker.name.findName(),
-    phone: faker.phone.phoneNumber(),
-  }
-
   it('it should fail if body parameters are missing', async () => {
     const event = { body: {} } as ValidatedAPIGatewayProxyEvent<typeof schema>
 

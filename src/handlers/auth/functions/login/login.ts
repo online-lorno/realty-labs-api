@@ -18,7 +18,7 @@ const bodySchema: JSONSchemaType<Body> = schema
 const ajv = new Ajv()
 const validate = ajv.compile(bodySchema)
 
-const login: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
+export const login: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
   event
 ) => {
   try {
