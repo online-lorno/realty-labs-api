@@ -52,7 +52,6 @@ export const register: ValidatedEventAPIGatewayProxyEvent<typeof schema> =
         message: 'Successfully registered',
       })
     } catch (exception: any) {
-      console.log(exception)
       return error(exception)
     }
   }

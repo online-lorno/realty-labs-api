@@ -9,7 +9,6 @@ export const root = async () => {
       message: 'Realty Labs API service',
     })
   } catch (exception: any) {
-    console.log(exception)
     return error(exception)
   }
 }

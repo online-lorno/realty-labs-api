@@ -36,7 +36,6 @@ const verifyToken: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
       message: 'Token verified',
     })
   } catch (exception: any) {
-    console.log(exception)
     return error(exception)
   }
 }

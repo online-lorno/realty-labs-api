@@ -45,7 +45,6 @@ export const login: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
       token,
     })
   } catch (exception: any) {
-    console.log(exception)
     return error(exception)
   }
 }
