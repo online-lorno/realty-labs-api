@@ -15,29 +15,28 @@ const bodySchema: JSONSchemaType<Body> = schema
 const ajv = new Ajv()
 const validate = ajv.compile(bodySchema)
 
-const verifyToken: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
-  event
-) => {
-  try {
-    // Validate fields
-    if (!validate(event.body)) {
-      returnAjvError(validate.errors)
+export const verifyToken: ValidatedEventAPIGatewayProxyEvent<typeof schema> =
+  async (event) => {
+    try {
+      // Validate fields
+      if (!validate(event.body)) {
+        returnAjvError(validate.errors)
+      }
+
+      // Expand passed data
+      const { token } = event.body
+
+      // Check if token is verified
+      if (!isTokenVerified(token)) {
+        throw errorResponse('Token invalid or expired', StatusCode.UNAUTHORIZED)
+      }
+
+      return success({
+        message: 'Token verified',
+      })
+    } catch (exception: any) {
+      return error(exception)
     }
-
-    // Expand passed data
-    const { token } = event.body
-
-    // Check if token is verified
-    if (!isTokenVerified(token)) {
-      throw errorResponse('Token invalid or expired', StatusCode.UNAUTHORIZED)
-    }
-
-    return success({
-      message: 'Token verified',
-    })
-  } catch (exception: any) {
-    return error(exception)
   }
-}
 
 export const handler = middyfy(verifyToken)
