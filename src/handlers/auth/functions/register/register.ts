@@ -16,46 +16,45 @@ const bodySchema: JSONSchemaType<Body> = schema
 const ajv = new Ajv()
 const validate = ajv.compile(bodySchema)
 
-const register: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
-  event
-) => {
-  try {
-    // Connect to database
-    await mongoClient.connect()
+export const register: ValidatedEventAPIGatewayProxyEvent<typeof schema> =
+  async (event) => {
+    try {
+      // Connect to database
+      await mongoClient.connect()
 
-    // Validate fields
-    if (!validate(event.body)) {
-      returnAjvError(validate.errors)
+      // Validate fields
+      if (!validate(event.body)) {
+        returnAjvError(validate.errors)
+      }
+
+      // Expand passed data
+      const { email, password, name, phone } = event.body
+
+      // Check if user is existing
+      const checkUser = await User.findOne({ email })
+      if (checkUser) {
+        throw errorResponse('Email is already taken', StatusCode.BAD_REQUEST)
+      }
+
+      // Create user
+      const user = await new User()
+      user.email = email
+      user.name = name
+      user.type = UserType.Broker
+      user.login_type = UserLoginType.email
+      user.password = password
+      user.phone = phone
+      await user.save()
+
+      // @TODO: Sent email to verify email address
+
+      return success({
+        message: 'Successfully registered',
+      })
+    } catch (exception: any) {
+      console.log(exception)
+      return error(exception)
     }
-
-    // Expand passed data
-    const { email, password, name, phone } = event.body
-
-    // Check if user is existing
-    const checkUser = await User.findOne({ email })
-    if (checkUser) {
-      throw errorResponse('Email is already taken.', StatusCode.BAD_REQUEST)
-    }
-
-    // Create user
-    const user = await new User()
-    user.email = email
-    user.name = name
-    user.type = UserType.Broker
-    user.login_type = UserLoginType.email
-    user.password = password
-    user.phone = phone
-    await user.save()
-
-    // @TODO: Sent email to verify email address
-
-    return success({
-      message: 'Successfully registered',
-    })
-  } catch (exception: any) {
-    console.log(exception)
-    return error(exception)
   }
-}
 
 export const handler = middyfy(register)
