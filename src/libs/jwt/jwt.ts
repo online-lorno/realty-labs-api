@@ -9,7 +9,6 @@ export const isTokenVerified = (token: string): boolean => {
     verify(token, process.env.JWT_SECRET ?? 'secret')
     return true
   } catch (err) {
-    console.log(err)
     return false
   }
 }
