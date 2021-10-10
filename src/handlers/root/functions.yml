@@ -1,6 +1,6 @@
 # API root route
 root:
-  handler: ${self:custom.root}/root/functions/root.handler
+  handler: ${self:custom.root}/root/functions/root/root.handler
   events:
     - http:
         path: ${self:custom.apiPrefix}
