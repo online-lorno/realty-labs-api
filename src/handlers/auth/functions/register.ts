@@ -33,7 +33,6 @@ const register: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
 
     // Check if user is existing
     const checkUser = await User.findOne({ email })
-    console.log({ checkUser })
     if (checkUser) {
       throw errorResponse('Email is already taken.', StatusCode.BAD_REQUEST)
     }
