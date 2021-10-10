@@ -15,3 +15,12 @@ register:
         path: ${self:custom.apiPrefix}/auth/register
         method: post
         cors: true
+
+# Verify token
+verify-token:
+  handler: ${self:custom.root}/auth/functions/verify-token.handler
+  events:
+    - http:
+        path: ${self:custom.apiPrefix}/auth/verify-token
+        method: post
+        cors: true
