@@ -119,3 +119,6 @@ dist
 
 # Webpack directory
 .webpack
+
+# Global config
+globalConfig.json
