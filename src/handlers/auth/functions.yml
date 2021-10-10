@@ -1,3 +1,12 @@
+# Login
+login:
+  handler: ${self:custom.root}/auth/functions/login.handler
+  events:
+    - http:
+        path: ${self:custom.apiPrefix}/auth/login
+        method: post
+        cors: true
+
 # Register
 register:
   handler: ${self:custom.root}/auth/functions/register.handler
