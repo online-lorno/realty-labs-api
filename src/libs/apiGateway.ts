@@ -8,7 +8,10 @@ import isString from 'lodash/isString'
 
 import { ErrorResponse, Headers, Body } from './types'
 
-type ValidatedAPIGatewayProxyEvent<S> = Omit<APIGatewayProxyEvent, 'body'> & {
+export type ValidatedAPIGatewayProxyEvent<S> = Omit<
+  APIGatewayProxyEvent,
+  'body'
+> & {
   body: FromSchema<S>
 }
 export type ValidatedEventAPIGatewayProxyEvent<S> = Handler<
