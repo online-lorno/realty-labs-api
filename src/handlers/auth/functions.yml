@@ -1,0 +1,8 @@
+# Register
+register:
+  handler: ${self:custom.root}/auth/functions/register.handler
+  events:
+    - http:
+        path: ${self:custom.apiPrefix}/auth/register
+        method: post
+        cors: true

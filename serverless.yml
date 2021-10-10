@@ -21,6 +21,7 @@ provider:
 
 functions:
   - ${file(./src/handlers/root/functions.yml)}
+  - ${file(./src/handlers/auth/functions.yml)}
 
 custom:
   root: 'src/handlers'
